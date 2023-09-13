@@ -253,7 +253,7 @@ function _bank_transformers!(data_eng::Dict{String,<:Any})
             for (i,p) in locs
                 if haskey(trs[i],"controls")
                     for w in 1:nrw
-                        c = f_phases_loc[i][1]
+                        c = p[1]
                         btrans["controls"]["vreg"][w][c] = trs[i]["controls"]["vreg"][w][p]
                         btrans["controls"]["band"][w][c] = trs[i]["controls"]["band"][w][p]
                         btrans["controls"]["ptratio"][w][c] = trs[i]["controls"]["ptratio"][w][p]
