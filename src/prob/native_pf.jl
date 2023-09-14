@@ -131,8 +131,9 @@ function PowerFlowData(data_math::Dict{String,<:Any}, v_start::Dict{<:Any,<:Any}
     Uf = fill(NaN + im * NaN, length(fixed_nodes))
 
     for (i, (b, t)) in enumerate(fixed_nodes)
-        vm_t = Dict(data_math["bus"]["$b"]["terminals"] .=> data_math["bus"]["$b"]["vm"])
-        va_t = Dict(data_math["bus"]["$b"]["terminals"] .=> data_math["bus"]["$b"]["va"])
+        terminals = data_math["bus"]["$b"]["terminals"] 
+        vm_t = Dict(terminals .=> data_math["bus"]["$b"]["vm"][1:length(terminals)])
+        va_t = Dict(terminals .=> data_math["bus"]["$b"]["va"][1:length(terminals)])
         Uf[i] = vm_t[t] * exp(im * va_t[t])
     end
 

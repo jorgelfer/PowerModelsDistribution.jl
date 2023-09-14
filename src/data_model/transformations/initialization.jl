@@ -170,8 +170,8 @@ function calc_start_voltage(
                     v_to_n = v_to[end]
                     M = _get_delta_transformation_matrix(length(v_fr))
                     Mp = [M[1:end-1, :]; fill(1.0, 1, length(v_fr))]
-                    v_to_pn_scaled = (v_to_p .- v_to_n) .* scale
-                    v_fr = inv(Mp) * [v_to_pn_scaled[1:end-1]..., 0.0]
+                    v_to_pn_scaled = (v_to_p .- v_to_n) .* [scale..., 1.0]
+                    v_fr = inv(Mp) * v_to_pn_scaled[1:end-1]
                     for (i, t) in enumerate(f_conns)
                         if ismissing(v_start[(f_bus, t)])
                             v_start[(f_bus, t)] = v_fr[i]
