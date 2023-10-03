@@ -1,6 +1,6 @@
 import Pkg
 Pkg.activate(".")
-Pkg.instantiate()
+# Pkg.instantiate()
 
 using JSON
 using Ipopt
@@ -24,11 +24,12 @@ end
 file_name = raw"C:\Users\jorge\AppData\Local\Programs\OpenDSS\IEEETestCases\123Bus\IEEE123Master.dss"
 
 # approach 1
-network = PMD.parse_file(file_name; data_model=PMD.MATHEMATICAL)
-model = PMD.instantiate_mc_model(network, PMD.ACPUPowerModel, PMD.build_mc_pf) 
+eng = PMD.parse_file(file_name; data_model=PMD.ENGINEERING)
+
+# approach 2
+model = PMD.instantiate_mc_model(eng, PMD.ACPUPowerModel, PMD.build_mc_pf) 
 result = PMD.optimize_model!(model, optimizer=Ipopt.Optimizer)
 PMD.update_data!(network, result["solution"])
-
 
 # write dictionary as JSON
 path = joinpath(@__DIR__, "network.json")
